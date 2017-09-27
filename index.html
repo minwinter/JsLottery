@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>跑马灯测试</title>
+    <style>
+        .lottery-wrap, .lottery-wrap2 {
+            position: relative;
+            margin: 0px auto;
+            width: 280px;
+        }
+
+        .lot-item, .lot-item2 {
+            position: relative;
+            width: 64px;
+            height: 66px;
+            text-align: center;
+            font-size: 14px;
+            background-color: #cb1573;
+        }
+
+        .lot-item.on ,.lot-item2.on {
+            background: rgb(255, 255, 126);
+        }
+
+        .lot-item::after {
+            background: rgba(0, 0, 0, 0.2) none repeat scroll 0% 0%;
+            content: "";
+            bottom: 0px;
+            left: 0;
+            right: 0;
+            height: 5px;
+            position: absolute;
+        }
+
+        .lot-btn-bg {
+            background-color: #278EF2;
+        }
+
+        .lot-btn {
+            position: absolute;
+            width: 58px;
+            height: 63px;
+            top: 74px;
+            left: 74px;
+            cursor: pointer;
+            background-color: #278EF2;
+            text-align: center;
+            font-size: 30px;
+            line-height: 133px;
+        }
+        .lot-btn2 {
+            position: absolute;
+            width: 126px;
+            height: 133px;
+            top: 74px;
+            left: 74px;
+            cursor: pointer;
+            background-color: #278EF2;
+            text-align: center;
+            font-size: 30px;
+            line-height: 133px;
+        }
+
+        /*不是table布局的class*/
+        .lot-item2 {
+            float: left;
+            margin: auto 2px 2px auto;
+            line-height: 66px;
+        }
+
+        .clearfix:after {
+            display: block;
+            visibility: hidden;
+            clear: both;
+            width: 0;
+            height: 0;
+            content: '.';
+        }
+
+        .lot-space {
+            float: left;
+            position: relative;
+            width: 64px;
+            height: 66px;
+            background-color: transparent;
+            margin: auto 2px 2px auto;
+        }
+
+        .lot-btn2 {
+            top: 68px;
+            left: 68px;
+        }
+    </style>
+</head>
+<body>
+<!--table布局-->
+<div class="lottery-wrap">
+    <table id="lot-list">
+        <tbody>
+        <tr>
+            <td class="lot-item">实物一</td>
+            <td class="lot-item">实物二</td>
+            <td class="lot-item">实物三</td>
+        </tr>
+        <tr>
+            <td class="lot-item">实物八</td>
+            <td class="lot-btn"></td>
+            <td class="lot-item">实物四</td>
+        </tr>
+        <tr>
+            <td class="lot-item">实物五</td>
+            <td class="lot-item">实物六</td>
+             <td class="lot-item">实物七</td>
+        </tr>
+  
+        </tbody>
+    </table>
+    <!--<div class="lot-btn">
+        抽奖
+    </div>-->
+</div>
+
+<!-- 针对不用table布局，需要在奖项的元素上加data-id,并且根据顺时针顺序 -->
+<div class="lottery-wrap2" style="margin-top:40px;">
+    <div class="lot-list2">
+        <div class="clearfix">
+            <span class="lot-item2" data-id="1">实物一</span>
+            <span class="lot-item2" data-id="2">实物二</span>
+            <span class="lot-item2" data-id="3">实物三</span>
+            <span class="lot-item2" data-id="4">实物四</span>
+        </div>
+        <div class="clearfix">
+            <span class="lot-item2" data-id="12">实物五</span>
+            <span class="lot-space"></span>
+            <span class="lot-space"></span>
+            <span class="lot-item2" data-id="5">实物六</span>
+        </div>
+        <div class="clearfix">
+            <span class="lot-item2" data-id="11">实物七</span>
+            <span class="lot-space"></span>
+            <span class="lot-space"></span>
+            <span class="lot-item2" data-id="6">实物八</span>
+        </div>
+        <div class="clearfix">
+            <span class="lot-item2" data-id="10">实物九</span>
+            <span class="lot-item2" data-id="9">实物十</span>
+            <span class="lot-item2" data-id="8">实物十一</span>
+            <span class="lot-item2" data-id="7">实物十二</span>
+        </div>
+    <div class="lot-btn2">
+        抽奖
+    </div>
+</div>
+<!--直接引入jquery就可以-->
+<script src="jquery.min.js"></script>
+<script src="lottery.js"></script>
+<script>
+    var myLottery = [{
+        name: '实物一',
+        code: 1
+    }, {
+        name: '实物二',
+        code: 2
+    }, {
+        name: '实物三',
+        code: 3
+    }, {
+        name: '实物四',
+        code: 4
+    }, {
+        name: '实物五',
+        code: 5
+    }, {
+        name: '实物六',
+        code: 6
+    }, {
+        name: '实物七',
+        code: 7
+    }, {
+        name: '实物八',
+        code: 8
+    }];
+    $('.lot-btn').off('click').on('click', function () {
+        $(this).JsLottery({
+            scroll_dom: 'lot-list', //外框的dom,可以是id或者class
+            scroll_item: 'lot-item', //奖项的class
+            new_class: 'on', //中奖需要加的class
+            square: 3, //N*N的方格
+            prizeIndex:5, //中奖的序号
+            isCycle: true, //是否跑着循环
+            callback: function () { //结束后的回调
+                alert('结束啦');
+            }
+        });
+    })
+
+    $('.lot-btn2').off('click').on('click', function () {
+        $(this).JsLottery({
+            scroll_dom: 'lot-list2', //外框的dom,可以是id或者class
+            scroll_item: 'lot-item2', //奖项的class
+            new_class: 'on', //中奖需要加的class
+            square: 4, //N*N的方格
+            prizeIndex: 2, //中奖的序号
+            isCycle: true, //是否跑着循环
+            callback: function () { //结束后的回调
+                alert('结束啦～～');
+            }
+        });
+    })
+</script>
+</body>
+</html>
